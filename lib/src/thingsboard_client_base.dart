@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:thingsboard_client/src/service/validate_service.dart';
 import 'error/thingsboard_error.dart';
 import 'http/http_utils.dart';
 import 'interceptor/http_interceptor.dart';
@@ -58,6 +59,7 @@ class ThingsboardClient {
   ResourceService? _resourceService;
   OtaPackageService? _otaPackageService;
   TelemetryWebsocketService? _telemetryWebsocketService;
+  ValidateService? _validateService;
 
   factory ThingsboardClient(String apiEndpoint,
       {TbStorage? storage,
@@ -463,5 +465,10 @@ class ThingsboardClient {
     _telemetryWebsocketService ??=
         TelemetryWebsocketService(this, _apiEndpoint);
     return _telemetryWebsocketService!;
+  }
+
+  ValidateService getValidateService() {
+    _validateService ??= ValidateService(this);
+    return _validateService!;
   }
 }
